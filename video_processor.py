@@ -85,7 +85,7 @@ class VideoProcessor:
 	def read_action(self):
 		"""Read one frame, update sliding window, return (action, quit_flag).
 
-		- action: -1 (left), 0 (straight/uncertain), 1 (right), None when frame read failed
+		- action: 1 (left), 0 (straight/uncertain), -1 (right), None when frame read failed
 		- quit_flag: True when ESC pressed or capture failed
 		"""
 		ret, frame = self.capture.read()
@@ -107,7 +107,7 @@ class VideoProcessor:
 				
 			roi_gray = gray[y:y + h, x:x + w]
 			
-			# nose detection (optional - only if cascade loaded)
+			# nose detection (greatly reduces likelihood of classifying nostrils as eyes)
 			nose_rect = None
 			if self.nose_cascade is not None:
 				noses = self.nose_cascade.detectMultiScale(roi_gray, 1.1, 5)
@@ -225,9 +225,9 @@ class VideoProcessor:
 			cv.imshow('Frame', frame)
 			key = cv.waitKey(1) & 0xFF
 			if key == 27:
-				return action, True
+				return majority_label, True
 
-		return action, False
+		return majority_label, False
 
 	def release(self):
 		try:

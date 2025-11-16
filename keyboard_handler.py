@@ -1,7 +1,4 @@
-try:
-    import pyautogui
-except Exception:
-    pyautogui = None
+import pyautogui
 
 
 class KeyboardHandler:
@@ -12,8 +9,7 @@ class KeyboardHandler:
     """
 
     def __init__(self):
-        self.enabled = pyautogui is not None
-        self._pg = pyautogui
+        self.enabled = True
         self.last_action = None
 
     def perform_action(self, action):
@@ -27,16 +23,18 @@ class KeyboardHandler:
             return
 
         key = None
-        if action == -1:
-            #what the camera sees as right is the user's left
-            key = 'right'
-        elif action == 1:
-            key = 'left'
+        if action == "right":
+            # user tilted head to right
+            key = 'down'
+        elif action == "left":
+            # user tilted head to left
+            key = 'up'
 
         if key:
             if self.enabled:
                 try:
-                    self._pg.press(key)
+                    pyautogui.press(key)
+                    print("keypress:", key)
                 except Exception as e:
                     print(f"pyautogui error pressing {key}: {e}")
             else:

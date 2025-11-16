@@ -15,6 +15,7 @@ def main():
 	try:
 		while True:
 			action, quit_flag = vp.read_action()
+			# print("action to take is", action)
 			action_taken = kh.perform_action(action)
 			
 			if quit_flag:
