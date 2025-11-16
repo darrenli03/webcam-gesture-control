@@ -7,7 +7,7 @@ except Exception:
 class KeyboardHandler:
     """Handles mapping action ints to keyboard presses.
 
-    Mapping: -1 -> 'left', 0 -> no key, 1 -> 'right'
+    Mapping: -1 -> 'right', 0 -> no key, 1 -> 'left'
     If `pyautogui` is not available, actions are printed instead.
     """
 
